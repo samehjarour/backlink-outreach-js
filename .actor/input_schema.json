@@ -17,18 +17,21 @@
             "title": "Name of your company/website",
             "type": "string",
             "description": "It needs so that AI models better understand competitors",
-            "prefill": "Apify"
+            "prefill": "Apify",
+            "editor": "textfield",
         },
         "shortBusinessDescription": {
             "title": "Name of your company/website",
             "type": "string",
             "description": "It needs so that AI models better understand competitors",
-            "prefill": "Apify is the largest ecosystem where developers build, deploy, and publish data extraction and web automation tools. We call them Actors."
+            "prefill": "Apify is the largest ecosystem where developers build, deploy, and publish data extraction and web automation tools. We call them Actors.",
+            "editor": "textfield"
         },
         "name": {
             "title": "Your name to be appended to the emails",
             "type": "string",
-            "description": "The name which will be appended to the outreach messages"
+            "description": "The name which will be appended to the outreach messages",
+            "editor": "textfield"
         },
         "excludeDomains": {
             "title": "Domains to exclude",

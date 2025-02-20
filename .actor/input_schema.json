@@ -8,7 +8,7 @@
             "title": "Keywords",
             "type": "array",
             "description": "One or more keywords for which we'll prepare backlink outreach",
-            "editor": "requestListSources",
+            "editor": "json",
             "prefill": [
                 "Best google search scrapers"
             ]
@@ -21,7 +21,7 @@
             "editor": "textfield"
         },
         "shortBusinessDescription": {
-            "title": "Name of your company/website",
+            "title": "Description of your company/website",
             "type": "string",
             "description": "It needs so that AI models better understand competitors",
             "prefill": "Apify is the largest ecosystem where developers build, deploy, and publish data extraction and web automation tools. We call them Actors.",
@@ -37,7 +37,7 @@
             "title": "Domains to exclude",
             "type": "array",
             "description": "One or more domains, which should be excluded from the outreach. This improves the outreach strategy",
-            "editor": "requestListSources",
+            "editor": "json",
             "prefill": [
                 "somescraper.com"
             ]

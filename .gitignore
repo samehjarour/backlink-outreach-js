@@ -10,3 +10,5 @@ vector_index
 
 # Added by Apify CLI
 .venv
+
+.env

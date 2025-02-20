@@ -18,7 +18,7 @@
             "type": "string",
             "description": "It needs so that AI models better understand competitors",
             "prefill": "Apify",
-            "editor": "textfield",
+            "editor": "textfield"
         },
         "shortBusinessDescription": {
             "title": "Name of your company/website",

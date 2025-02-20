@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Actor } from "apify";
+import { Actor, log } from "apify";
 import { getOutreachSequences, getPotentialBacklinks } from "./ai-utils.js";
 import {
   enrichSequenceWithContacts,
@@ -11,6 +11,10 @@ import {
   getContactDetails,
   getResultsFromGoogleByKeywords,
 } from "./actors.js";
+
+const Event = {
+  PREPARED_OUTREACH: "prepared-outreach",
+};
 
 await Actor.init();
 
@@ -36,11 +40,19 @@ if (!APIFY_TOKEN)
 // Scrape from google
 const preparedArticleUrls = await getResultsFromGoogleByKeywords(keywords);
 
+log.info("Scraped google search for keywords", {
+  totalPages: preparedArticleUrls?.flat()?.length ?? 0,
+});
+
 // Find potential backlinks
 const listOfPotentialBacklinks = await getPotentialBacklinks(
   preparedArticleUrls,
   excludeDomains,
 );
+
+log.info("Analyzed potential backlinks", {
+  backlinksAmount: listOfPotentialBacklinks?.length ?? 0,
+});
 
 const interestingArticles = preparedArticleUrls
   .flat()
@@ -55,7 +67,6 @@ const contactDetails = await getContactDetails(uniqueDomains);
 const withContacts = contactDetails.filter(
   (item) => item?.emails?.length || item?.linkedIns?.length,
 );
-// const withContacts = CONTACT_RUN_TEMP;
 
 const withContactsDomains = [
   ...new Set(withContacts.map((item) => item.domain)),
@@ -65,12 +76,21 @@ const interestingUrlsWithContactDetails = interestingUrls.filter((item) =>
   withContactsDomains.some((domain) => item.includes(domain)),
 );
 
+log.info("Get contact details", {
+  urlsWithContactDetails: interestingUrlsWithContactDetails?.length ?? 0,
+});
+
 const articleContentDetails = await getArticleDetailContent(
   interestingUrlsWithContactDetails,
 );
 
+log.info("Preparing outreach sequence for articles", {
+  articles: articleContentDetails?.length ?? 0,
+});
 // process full article to include: email, linkedin
 const outreachSequence = await getOutreachSequences(articleContentDetails);
+
+log.info("Preparing dataset");
 
 const contactsByDomain = prepareContactsByDomain(contactDetails);
 
@@ -78,6 +98,11 @@ const enrichedSequence = enrichSequenceWithContacts(
   outreachSequence,
   contactsByDomain,
 );
+
+await Actor.charge({
+  eventName: Event.PREPARED_OUTREACH,
+  count: enrichedSequence.length,
+});
 
 await Actor.pushData(enrichedSequence);
 await Actor.exit();

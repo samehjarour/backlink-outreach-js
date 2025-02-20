@@ -1,47 +1,43 @@
 {
-    "title": "Input schema for LangChainJS example",
-    "description": "Enter start URL of a website(s) to crawl, configure other optional settings, and decide if you want to use existing cached vector database.",
+    "title": "Input schema for Backlink outreach",
+    "description": "Enter the keywords to look for",
     "type": "object",
     "schemaVersion": 1,
     "properties": {
-        "startUrls": {
-            "title": "Start URLs",
+        "keywords": {
+            "title": "Keywords",
             "type": "array",
-            "description": "One or more URLs of pages where the crawler will start. Note that the Actor will additionally only crawl sub-pages of these URLs. For example, for start URL `https://www.example.com/blog`, it will crawl pages like `https://example.com/blog/article-1`, but will skip `https://example.com/docs/something-else`.",
+            "description": "One or more keywords for which we'll prepare backlink outreach",
             "editor": "requestListSources",
             "prefill": [
-                {
-                    "url": "https://wikipedia.com"
-                }
+                "Best google search scrapers"
             ]
         },
-        "maxCrawlPages": {
-            "title": "Max pages",
-            "type": "integer",
-            "description": "The maximum number pages to crawl. It includes the start URLs, pagination pages, pages with no content, etc. The crawler will automatically finish after reaching this number. This setting is useful to prevent accidental crawler runaway.",
-            "minimum": 0,
-            "default": 9999999,
-            "prefill": 3
-        },
-        "openAIApiKey": {
-            "title": "OpenAI API key",
+        "businessName": {
+            "title": "Name of your company/website",
             "type": "string",
-            "description": "Enter your [OpenAI](https://openai.com/) account and an API key. This is needed for vectorizing the data and also to be able to prompt the OpenAI model.",
-            "editor": "textfield",
-            "isSecret": true
+            "description": "It needs so that AI models better understand competitors",
+            "prefill": "Apify"
         },
-        "query": {
-            "title": "Query",
+        "shortBusinessDescription": {
+            "title": "Name of your company/website",
             "type": "string",
-            "description": "The query you want to ask the model about the crawled data.",
-            "editor": "textfield",
-            "prefill": "What is Wikipedia?"
+            "description": "It needs so that AI models better understand competitors",
+            "prefill": "Apify is the largest ecosystem where developers build, deploy, and publish data extraction and web automation tools. We call them Actors."
         },
-        "forceRecrawl": {
-            "title": "Re-crawl the data",
-            "type": "boolean",
-            "description": "If enabled, the data will be re-crawled even if cached vector index is available.",
-            "default": false
+        "name": {
+            "title": "Your name to be appended to the emails",
+            "type": "string",
+            "description": "The name which will be appended to the outreach messages"
+        },
+        "excludeDomains": {
+            "title": "Domains to exclude",
+            "type": "array",
+            "description": "One or more domains, which should be excluded from the outreach. This improves the outreach strategy",
+            "editor": "requestListSources",
+            "prefill": [
+                "somescraper.com"
+            ]
         }
     }
 }

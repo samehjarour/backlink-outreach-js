@@ -79,5 +79,5 @@ const enrichedSequence = enrichSequenceWithContacts(
   contactsByDomain,
 );
 
-Actor.pushData(enrichedSequence);
-Actor.exit();
+await Actor.pushData(enrichedSequence);
+await Actor.exit();

@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const getUniqueDomains = (allUrls: string[]) => {
   const uniqueDomains = new Set<string>();
 

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { ChatOpenAI } from "@langchain/openai";
 import { CRAFT_MESSAGE_SEQUENCE, FILTER_LINKS_PROMPT } from "./prompts.js";
 

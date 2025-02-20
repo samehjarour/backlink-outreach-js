@@ -56,10 +56,10 @@ export const enrichSequenceWithContacts = (sequence, contacts) => {
 
     return {
       ...item,
-      emails: [...foundContact?.emails] ?? [],
-      linkedIns: [...foundContact?.linkedIns] ?? [],
-      twitters: [...foundContact?.linkedIns] ?? [],
-      facebooks: [...foundContact?.facebooks] ?? [],
+      emails: foundContact?.emails ? [...foundContact?.emails] : [],
+      linkedIns: foundContact?.linkedIns ? [...foundContact?.linkedIns] : [],
+      twitters: foundContact?.twitters ? [...foundContact?.twitters] : [],
+      facebooks: foundContact?.facebooks ? [...foundContact?.facebooks] : [],
     };
   });
 };

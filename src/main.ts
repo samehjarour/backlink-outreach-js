@@ -44,7 +44,7 @@ log.info("Scraped google search for keywords", {
   totalPages: preparedArticleUrls?.flat()?.length ?? 0,
 });
 
-// Find potential backlinks
+// Analyze and find potential backlinks
 const listOfPotentialBacklinks = await getPotentialBacklinks(
   preparedArticleUrls,
   excludeDomains,

@@ -9,6 +9,7 @@ import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import OpenAI from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
+import { ActorDatasets } from "./types.js";
 
 const { OPENAI_API_KEY } = process.env;
 
@@ -39,7 +40,7 @@ const Sequence = z.object({
 });
 
 export async function getPotentialBacklinks(
-  preparedArticlesUrl: { url: string }[],
+  preparedArticlesUrl: ActorDatasets.OrganicResultItem[],
   excludeDomains = [],
 ) {
   const res = await Promise.all(
@@ -71,7 +72,10 @@ async function getFilteredBacklinksForKeyword(articleUrls, excludeDomains) {
   return res?.structuredResponse?.urls;
 }
 
-export async function getOutreachSequences(articles: object[], options = {}) {
+export async function getOutreachSequences(
+  articles: ActorDatasets.ContentCrawlerItem[],
+  options = {},
+) {
   const response = [];
 
   for (const article of articles) {

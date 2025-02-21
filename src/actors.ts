@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { ApifyDatasetLoader } from "@langchain/community/document_loaders/web/apify_dataset";
 import { ApifyClient } from "apify";
+import { ActorDatasets, ContentCrawlerDataset } from "./types.js";
 
 const { APIFY_TOKEN } = process.env;
 
@@ -30,8 +31,8 @@ export async function getResultsFromGoogleByKeywords(keywords: string[]) {
     },
   );
 
-  const result = await loader.load();
-  return result?.map((item) => item?.organicResults);
+  const result = (await loader.load()) as ActorDatasets.GoogleScraperDataset;
+  return result.map((item) => item.organicResults);
 }
 
 export async function getContactDetails(uniqueDomains: string[]) {
@@ -57,7 +58,7 @@ export async function getContactDetails(uniqueDomains: string[]) {
     },
   );
 
-  return contactDetailsRun.load();
+  return (await contactDetailsRun.load()) as ActorDatasets.ContactDetailDataset;
 }
 
 export async function getArticleDetailContent(articleUrls: string[]) {
@@ -102,5 +103,5 @@ export async function getArticleDetailContent(articleUrls: string[]) {
     },
   );
 
-  return articleContent.load();
+  return (await articleContent.load()) as ActorDatasets.ContentCrawlerDataset;
 }

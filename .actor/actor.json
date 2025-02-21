@@ -1,8 +1,8 @@
 {
 	"actorSpecification": 1,
 	"name": "backlink-outreach-js",
-	"title": "Backlink Outreacher",
-	"description": "This actor leverages targeted keyword analysis to identify potential backlink opportunities and automatically generates tailored outreach sequences",
+	"title": "Link Building Agent",
+	"description": "The Link Building Agent automates backlink outreach by finding relevant pages and websites, extracting contacts from these websites, and then crafting personalized outreach sequences based on the Markdown content to these partners. These sequences can be used on email, LinkedIn, Twitter, & WhatsApp.",
 	"version": "0.0",
 	"meta": {
 		"templateId": "js-langchain"

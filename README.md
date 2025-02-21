@@ -1,94 +1,137 @@
-## LangChain.js template
+## Link Building Agent
 
-> LangChain is a framework for developing applications powered by language models.
+The Link Building Agent is an automated agent designed to automate link-building efforts, a key component of building an SEO profile. It helps you position your website on keywords or search terms that are driving traffic or conversions (e.g., best email validation tool, best CRM for small businesses).
 
-This example template illustrates how to use LangChain.js with Apify to crawl the web data, vectorize them, and prompt the OpenAI model. All of this is within a single Apify Actor and slightly over a hundred lines of code.
+---
 
-## Included features
+### It does the following:
 
-- **[Apify SDK](https://docs.apify.com/sdk/js/)** - a toolkit for building [Actors](https://apify.com/actors)
-- **[Input schema](https://docs.apify.com/platform/actors/development/input-schema)** - define and easily validate a schema for your actor's input
-- **[Langchain.js](https://github.com/hwchase17/langchainjs)** - a framework for developing applications powered by language models
-- **[OpenAI](https://openai.com/)** - a powerful language model
+- **Keyword Search:**  
+  Identify potential backlink partners via SERP results on keywords or search terms.
 
-## How it works
+- **Filter & Analyze opportunities:**
+  Assess their relevance (filter out direct competitors).
 
-The code contains the following steps:
+- **Extract contact details:**  
+  Extract contact details from shortlisted pages or domains.
 
-1. Crawls given website using [Website Content Crawler](https://apify.com/apify/website-content-crawler) Actor.
-2. Vectorizes the data using the [OpenAI](https://openai.com/) API.
-3. Caches the vector index in the [key-value store](https://docs.apify.com/platform/storage/key-value-store) so that when you run Actor for the same website again, the cached data are used to speed it up.
-4. Data are fed to the OpenAI model using [Langchain.js](https://github.com/hwchase17/langchainjs), and a given query is asked.
+- **Generate personalized outreach:**  
+  Generate personalized outreach messages on email, Linkedin, Twitter, Facebook based on the Markdown of the targeted pages, with instructions on required anchor text or keywords.
 
-## Before you start
+**You can then integrate this output to any messaging platform or automation tool via Make, n8n, or to ingest it as key properties into your CRMs like Hubspot, Salesforce, or Attio.**
 
-To be able to run this template both locally and on the Apify platform, you need to:
+---
 
-- Have an [Apify account](https://console.apify.com/) and sign into it using `apify login` command in your terminal. Without this, you won't be able to run the required [Website Content Crawler](https://apify.com/apify/website-content-crawler) Actor to gather the data.
-- Have an [OpenAI](https://openai.com/) account and an API key. This is needed for vectorizing the data and also to be able to prompt the OpenAI model.
-    - When running locally store this as OPENAI_API_KEY environment variable (https://docs.apify.com/cli/docs/vars#set-up-environment-variables-in-apify-console).
-    - When running on Apify platform, you can simply paste this into the input field in the input UI.
+### Input
 
-## Production use
+Set your parameters using a simple JSON format. For example:
 
-> This serves purely as an example of the whole pipeline.
-
-For production use, we recommend you to:
-
-- Separate crawling, data vectorization, and prompting into separate Actors. This way, you can run them independently and scale them separately.
-- Replace the local vector store with [Pinecone](https://www.pinecone.io/) or a similar database. See the [LangChain.js docs](https://js.langchain.com/docs/) for more information.
-
-## Resources
-
-- [Pinecone integration](https://apify.com/jan.turon/pinecone-integration) Actor
-- [How to use Pinecone with LLMs](https://blog.apify.com/what-is-pinecone-why-use-it-with-llms/)
-- [How to use LangChain with OpenAI, Pinecone, and Apify](https://blog.apify.com/how-to-use-langchain/)
-- [Integration with Zapier](https://apify.com/integrations), Make, Google Drive and others
-- [Video guide on getting data using Apify API](https://www.youtube.com/watch?v=ViYYDHSBAKM)
-- A short guide on [how to create web scrapers using code templates](https://www.youtube.com/watch?v=u-i-Korzf8w)
-
-[Web Scraping Data for Generative AI](https://www.youtube.com/watch?v=8uvHH-ocSes)
-
-
-
-## Getting started
-
-For complete information [see this article](https://docs.apify.com/platform/actors/development#build-actor-locally). To run the actor use the following command:
-
-```bash
-apify run
+```json
+{
+  "keywords": [
+    "Google maps scraper",
+    "Top best google maps scrapers"
+  ],
+  "businessName": "Apify",
+  "shortBusinessDescription": "Apify is the largest ecosystem where developers build, deploy, and publish data extraction and web automation tools. We call them Actors.",
+  "name": "Dan",
+  "excludeDomains": [
+    "somescraper.com"
+  ]
+}
 ```
 
-## Deploy to Apify
+- **keywords:** Keywords: These are the keywords or search terms that you want to target. This should be part of your SEO strategy, so keywords or search terms that are driving quality traffic and conversions to your website. Check out Ahrefs or Similarweb for more information, or use your CRM to determine the best keywords or search terms to target.
+- **businessName:** Your company or project name.
+- **shortBusinessDescription:** A brief description of your business.
+- **name:** Your name or contact person.
+- **excludeDomains:** Domains to skip in the search.
 
-### Connect Git repository to Apify
+---
 
-If you've created a Git repository for the project, you can easily connect to Apify:
+### Output
 
-1. Go to [Actor creation page](https://console.apify.com/actors/new)
-2. Click on **Link Git Repository** button
+Here is a sample of the Output in JSON which you can use on marketing automation tools like Instantly or Hubspot:
 
-### Push project on your local machine to Apify
 
-You can also deploy the project on your local machine to Apify without the need for the Git repository.
+- **Article Details:** URL, title, and description.
+- **Contacts:** Email addresses and social media links.
+- **Message Sequence:** Ready-to-use outreach messages for each communication channel consisting of 3 messages (1 message + 2 follow ups).
 
-1. Log in to Apify. You will need to provide your [Apify API Token](https://console.apify.com/account/integrations) to complete this action.
+For example:
 
-    ```bash
-    apify login
-    ```
+```json
+{
+  "articleUrl": "https://example.com/backlink-opportunity",
+  "description": "Article meta description.",
+  "title": "Backlink Opportunity - Example Article",
+  "emails": ["contact@example.com"],
+  "facebooks": ["https://facebook.com/exampleprofile"],
+  "linkedIns": ["https://linkedin.com/in/exampleprofile"],
+  "twitters": ["https://twitter.com/exampleprofile"],
+  "sequence": {
+    "email": [
+      {
+        "subject": "Potential Collaboration: Best Google Search Scrapers and APIs",
+        "preview": "Hi, sharing insights on valuable Google SERP tools!",
+        "text": "Hi,\n\nI hope this message finds you well! I recently came across your platform and I thought your audience could benefit from my article comparing 15+ Google Search Scrapers and APIs for 2024. It covers practical use cases and insights that can enhance their data extraction processes.\n\nIf you find the content relevant, I would greatly appreciate a backlink in your resource section or an article mentioning this comparison.\n\nLooking forward to hearing from you!\n\nBest, \n[Your Name]"
+      },
+      {
+        "subject": "Following Up: Collaboration on Google Search Scrapers",
+        "preview": "Hi, just checking in on our last message!",
+        "text": "Hi,\n\nI wanted to follow up on my previous email regarding the article on Google Search Scrapers and APIs. I believe this could offer great value to your readers looking for efficient data extraction methods. \n\nIf you have any questions or need more information, feel free to let me know. I’d be excited to collaborate with you.\n\nThanks for your time!\n\nBest, \n[Your Name]"
+      },
+      {
+        "subject": "Last Chance to Enhance Your Resource Section!",
+        "preview": "Hi, don’t miss this opportunity!",
+        "text": "Hi,  \n\nI wanted to reach out one last time regarding my article on the best Google Search Scrapers and APIs. This content could be a great addition to your resource section, especially for readers interested in efficient data extraction techniques.\n\nIf interested, please let me know by the end of the week. I appreciate your consideration!\n\nWarm regards,  \n[Your Name]"
+      }
+    ],
+    "twitter": [
+      {
+        "subject": "Collaboration Opportunity!",
+        "preview": "Check out this valuable resource on Google SERP tools!",
+        "text": "Hi! I recently published a comprehensive guide on the best Google Search Scrapers and APIs for 2024. It can help your audience with efficient data extraction from SERPs. If interested, let’s discuss a backlink opportunity that benefits both of us!"
+      },
+      {
+        "subject": "Friendly Reminder!",
+        "preview": "Touching base on my previous message!",
+        "text": "Hey, just checking in! I reached out about my article comparing 15+ Google Search Scrapers and APIs. It’s packed with insights and use cases that your readers may find beneficial. Would love to hear if you're interested in linking to it!"
+      },
+      {
+        "subject": "Final Reminder!",
+        "preview": "Wrapping up my outreach campaign!",
+        "text": "Hi, this is my final outreach regarding my article on Google Search Scrapers and APIs. If this resonates with your audience, I’d love a chance to connect and discuss potential collaboration before the end of the week! Thanks for considering!"
+      }
+    ],
+    "linkedIn": [
+      {
+        "subject": "Exciting Collaboration Ahead!",
+        "preview": "Explore our shared interest in data extraction tools.",
+        "text": "Hi,\n\nI came across your profile and thought your audience would benefit from my recent article on the best Google Search Scrapers and APIs available in 2024. It dives deep into the advantages and use cases that could enhance their data extraction efforts.\n\nWould you be open to discussing a potential backlink to this resource? I’d love to partner up!"
+      },
+      {
+        "subject": "Checking In!",
+        "preview": "Curious if you had a chance to review my email.",
+        "text": "Hello, \n\nI hope you are doing well! I wanted to follow up on my previous message about my article on Google Search Scrapers and APIs. This could be a valuable resource for your audience, and I’d appreciate your thoughts on possible collaboration!\n\nLooking forward to your reply!"
+      },
+      {
+        "subject": "Last Chance for Collaboration!",
+        "preview": "Don’t miss out on this valuable resource!",
+        "text": "Hi, \n\nI wanted to reach out one final time about my article on the best Google Search Scrapers and APIs. If you think this could benefit your readers, I’d love to discuss linking opportunities!\n\nLet me know by the end of the week—thank you!"
+      }
+    ]
+  }
+}
+```
 
-2. Deploy your Actor. This command will deploy and build the Actor on the Apify Platform. You can find your newly created Actor under [Actors -> My Actors](https://console.apify.com/actors?tab=my).
+---
 
-    ```bash
-    apify push
-    ```
+### Tips for Best Results
 
-## Documentation reference
+- **Run Regularly:** Check for new opportunities on a regular basis.
+- **Refine Your Keywords:** Experiment with different keywords to target the right audience.
+- **Update Exclusions:** Keep your exclusion list current to avoid unwanted sites. Update it regularly. This will greatly improve filtering of potential opportunities!
+- **Integrate and customize:** You can then integrate this output to any messaging platform or automation tool via Make, n8n, or to ingest it as key properties into your CRMs like Hubspot, Salesforce, or Attio.
 
-To learn more about Apify and Actors, take a look at the following resources:
-
-- [Apify SDK for JavaScript documentation](https://docs.apify.com/sdk/js)
-- [Apify SDK for Python documentation](https://docs.apify.com/sdk/python)
-- [Apify Platform documentation](https://docs.apify.com/platform)
-- [Join our developer community on Discord](https://discord.com/invite/jyEM2PRvMU)
+Let our AI-powered outreach handle the communication so you can focus on what really matters—growing your business and building meaningful partnerships.

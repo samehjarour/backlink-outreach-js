@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Actor, log } from "apify";
 import { getOutreachSequences, getPotentialBacklinks } from "./ai-utils.js";
 import {
@@ -11,6 +10,7 @@ import {
   getContactDetails,
   getResultsFromGoogleByKeywords,
 } from "./actors.js";
+import { ActorInput } from "./types.js";
 
 const Event = {
   PREPARED_OUTREACH: "prepared-outreach",
@@ -22,15 +22,12 @@ const { OPENAI_API_KEY, APIFY_TOKEN } = process.env;
 
 // You can configure the input for the Actor in the Apify UI when running on the Apify platform or editing
 // storage/key_value_stores/default/INPUT.json when running locally.
-const {
-  keywords,
-  openAIApiKey = OPENAI_API_KEY, // This is a fallback to the OPENAI_API_KEY environment variable when value is not present in the input.
-  excludeDomains,
-} = (await Actor.getInput()) || {};
+const { keywords, excludeDomains } =
+  (await Actor.getInput<ActorInput>()) || ({} as ActorInput);
 
-if (!openAIApiKey)
+if (!OPENAI_API_KEY)
   throw new Error(
-    "Please configure the OPENAI_API_KEY as environment variable or enter it into the input!",
+    "Please configure the OPENAI_API_KEY as environment variable!",
   );
 if (!APIFY_TOKEN)
   throw new Error(

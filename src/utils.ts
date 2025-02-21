@@ -1,4 +1,7 @@
 // @ts-nocheck
+import { ActorDatasets } from "./types.js";
+import { OutreachSequence } from "./ai-utils.js";
+
 export const getUniqueDomains = (allUrls: string[]) => {
   const uniqueDomains = new Set<string>();
 
@@ -17,7 +20,9 @@ export const getUniqueDomains = (allUrls: string[]) => {
   return Array.from(uniqueDomains);
 };
 
-export const prepareContactsByDomain = (data: object[]) => {
+export const prepareContactsByDomain = (
+  data: ActorDatasets.ContactDetailItem[],
+) => {
   const grouped = data.reduce((acc, item) => {
     const { domain } = item;
 
@@ -51,8 +56,12 @@ export const prepareContactsByDomain = (data: object[]) => {
   return grouped;
 };
 
-export const enrichSequenceWithContacts = (sequence, contacts) => {
+export const enrichSequenceWithContacts = (
+  sequence: OutreachSequence[],
+  contacts: object,
+) => {
   return sequence.map((item) => {
+    // @ts-expect-error fix later
     const foundContact = contacts?.[getDomainFromUrl(item.articleUrl)];
 
     return {

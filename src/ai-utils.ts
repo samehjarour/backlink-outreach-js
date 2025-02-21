@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { ChatOpenAI } from "@langchain/openai";
 import { CRAFT_MESSAGE_SEQUENCE, FILTER_LINKS_PROMPT } from "./prompts.js";
 
@@ -33,14 +31,23 @@ const MessageSchema = z.object({
   text: z.string(),
 });
 
-const Sequence = z.object({
+const AISequence = z.object({
   email: z.array(MessageSchema),
   twitter: z.array(MessageSchema),
   linkedIn: z.array(MessageSchema),
 });
 
+type AISequenceType = z.infer<typeof AISequence>;
+
+export type OutreachSequence = {
+  sequence: AISequenceType;
+  articleUrl: string;
+  title: string;
+  description: string;
+};
+
 export async function getPotentialBacklinks(
-  preparedArticlesUrl: ActorDatasets.OrganicResultItem[],
+  preparedArticlesUrl: ActorDatasets.OrganicResultItem[][],
   excludeDomains = [],
 ) {
   const res = await Promise.all(
@@ -51,7 +58,10 @@ export async function getPotentialBacklinks(
   return res.flat();
 }
 
-async function getFilteredBacklinksForKeyword(articleUrls, excludeDomains) {
+async function getFilteredBacklinksForKeyword(
+  articleUrls: ActorDatasets.OrganicResultItem[],
+  excludeDomains: string[],
+) {
   const agent = createReactAgent({
     llm: model,
     tools: [],
@@ -74,9 +84,8 @@ async function getFilteredBacklinksForKeyword(articleUrls, excludeDomains) {
 
 export async function getOutreachSequences(
   articles: ActorDatasets.ContentCrawlerItem[],
-  options = {},
 ) {
-  const response = [];
+  const response: OutreachSequence[] = [];
 
   for (const article of articles) {
     const sequence = await createOutreachSequence(article.text);
@@ -92,15 +101,15 @@ export async function getOutreachSequences(
   return response;
 }
 
-async function createOutreachSequence(content) {
+async function createOutreachSequence(content: string) {
   const completion = await openai.beta.chat.completions.parse({
     model: "gpt-4o-mini",
     messages: [
       { role: "system", content: CRAFT_MESSAGE_SEQUENCE },
       { role: "user", content: content },
     ],
-    response_format: zodResponseFormat(Sequence, "event"),
+    response_format: zodResponseFormat(AISequence, "event"),
   });
 
-  return completion.choices[0].message.parsed;
+  return completion.choices[0].message.parsed as AISequenceType;
 }

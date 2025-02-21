@@ -32,3 +32,11 @@ export namespace ActorDatasets {
     text: string;
   };
 }
+
+export type ActorInput = {
+  keywords: string[];
+  businessName: string;
+  shortBusinessDescription: string;
+  name: string;
+  excludeDomains: [];
+};

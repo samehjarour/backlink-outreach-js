@@ -1,3 +1,6 @@
+/**
+ * This is prompt used to filter potential backlinks
+ */
 export const FILTER_LINKS_PROMPT = `
 You are a backlink agent tasked with identifying and ranking the best backlink opportunities for a specific business. 
 Your goal is to remove competitors from the list of urls and return all of the urls to articles with potential backlinks opportunity. 
@@ -20,6 +23,9 @@ Return maximum of 10 results.
 
 You just need to return the list of potential articles for backlink opportunities. Respond with a valid JSON object, which looks like this 'urls': [Array of filtered urls] `;
 
+/**
+ * This is prompt used to create sequence of outreach messages.
+ */
 export const CRAFT_MESSAGE_SEQUENCE = `
 
 You are a Backlink Outreach Specialist tasked with crafting personalized messages to important publishers, websites, and other platforms where we seek backlink opportunities.

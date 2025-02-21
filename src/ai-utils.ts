@@ -46,6 +46,10 @@ export type OutreachSequence = {
   description: string;
 };
 
+/**
+ * This function analyzes list keywords with list of url scraped from google filters only backlinks,
+ * which potentially can be our partners
+ */
 export async function getPotentialBacklinks(
   preparedArticlesUrl: ActorDatasets.OrganicResultItem[][],
   excludeDomains = [],
@@ -58,6 +62,10 @@ export async function getPotentialBacklinks(
   return res.flat();
 }
 
+/**
+ * This function analyzes list of url scraped from google for 1 keyword and filters only backlinks,
+ * which potentially can be interested for us
+ */
 async function getFilteredBacklinksForKeyword(
   articleUrls: ActorDatasets.OrganicResultItem[],
   excludeDomains: string[],
@@ -82,6 +90,9 @@ async function getFilteredBacklinksForKeyword(
   return res?.structuredResponse?.urls;
 }
 
+/**
+ * This function prepares outreach sequences for all articles
+ */
 export async function getOutreachSequences(
   articles: ActorDatasets.ContentCrawlerItem[],
 ) {
@@ -101,6 +112,12 @@ export async function getOutreachSequences(
   return response;
 }
 
+/**
+ * This function prepares outreach sequence for 1 article
+ * Note: using langchain it mostly returned only 1 email sequence, instead of 3,
+ * that's why openai package is used without any additional frameworks here.
+ * Fix later
+ */
 async function createOutreachSequence(content: string) {
   const completion = await openai.beta.chat.completions.parse({
     model: "gpt-4o-mini",

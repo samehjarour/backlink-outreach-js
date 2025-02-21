@@ -1,14 +1,11 @@
-// @ts-nocheck
 import { ApifyDatasetLoader } from "@langchain/community/document_loaders/web/apify_dataset";
-import { ApifyClient } from "apify";
-import { ActorDatasets, ContentCrawlerDataset } from "./types.js";
+import { ActorDatasets } from "./types.js";
 
 const { APIFY_TOKEN } = process.env;
 
-const apifyClient = new ApifyClient({
-  token: APIFY_TOKEN,
-});
-
+/**
+ * Executes the Apify Google Search Scraper(apify/google-search-scraper) and returns the dataset items.
+ */
 export async function getResultsFromGoogleByKeywords(keywords: string[]) {
   const googleSearchScraperInput = {
     forceExactMatch: false,
@@ -35,6 +32,9 @@ export async function getResultsFromGoogleByKeywords(keywords: string[]) {
   return result.map((item) => item.organicResults);
 }
 
+/**
+ * Executes the Contact Info Scraper(vdrmota/contact-info-scraper) and returns the dataset items.
+ */
 export async function getContactDetails(uniqueDomains: string[]) {
   const contactDetailsOptions = {
     considerChildFrames: true,
@@ -61,6 +61,9 @@ export async function getContactDetails(uniqueDomains: string[]) {
   return (await contactDetailsRun.load()) as ActorDatasets.ContactDetailDataset;
 }
 
+/**
+ * Executes the Apify Website Content Crawler(apify/website-content-crawler) and returns the dataset items.
+ */
 export async function getArticleDetailContent(articleUrls: string[]) {
   const articleContentOptions = {
     aggressivePrune: false,

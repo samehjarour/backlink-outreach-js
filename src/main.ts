@@ -33,11 +33,15 @@ if (!APIFY_TOKEN)
   throw new Error(
     "Please configure the APIFY_TOKEN environment variable! Call `apify login` in your terminal to authenticate.",
   );
+if (!keywords.length)
+  throw new Error(
+    "Please configure the APIFY_TOKEN environment variable! Call `apify login` in your terminal to authenticate.",
+  );
 
-// Scrape from google
+// Scrape keyword results from google using actor
 const preparedArticleUrls = await getResultsFromGoogleByKeywords(keywords);
 
-log.info("Scraped google search for keywords", {
+log.info("Scraped google search by keywords", {
   totalPages: preparedArticleUrls?.flat()?.length ?? 0,
 });
 
@@ -51,13 +55,14 @@ log.info("Analyzed potential backlinks", {
   backlinksAmount: listOfPotentialBacklinks?.length ?? 0,
 });
 
+// Filter prepared articles to include only potential backlinks
 const interestingArticles = preparedArticleUrls
   .flat()
   .filter((item) => listOfPotentialBacklinks.includes(item.url));
 
 const interestingUrls = interestingArticles.map((item) => item.url);
 
-// Get contact details
+// Get contact details with Contact Info Scraper(vdrmota/contact-info-scraper)
 const uniqueDomains = getUniqueDomains(interestingUrls);
 const contactDetails = await getContactDetails(uniqueDomains);
 
@@ -77,6 +82,7 @@ log.info("Get contact details", {
   urlsWithContactDetails: interestingUrlsWithContactDetails?.length ?? 0,
 });
 
+// Get article content with Apify Website Content Crawler(apify/website-content-crawler)
 const articleContentDetails = await getArticleDetailContent(
   interestingUrlsWithContactDetails,
 );
@@ -84,7 +90,8 @@ const articleContentDetails = await getArticleDetailContent(
 log.info("Preparing outreach sequence for articles", {
   articles: articleContentDetails?.length ?? 0,
 });
-// process full article to include: email, linkedin
+
+// Prepare outreach sequence for all articles
 const outreachSequence = await getOutreachSequences(articleContentDetails);
 
 log.info("Preparing dataset");

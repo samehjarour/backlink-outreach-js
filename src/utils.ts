@@ -2,6 +2,9 @@
 import { ActorDatasets } from "./types.js";
 import { OutreachSequence } from "./ai-utils.js";
 
+/**
+ * Returns only unique domains from the list of URLs
+ */
 export const getUniqueDomains = (allUrls: string[]) => {
   const uniqueDomains = new Set<string>();
 
@@ -20,6 +23,10 @@ export const getUniqueDomains = (allUrls: string[]) => {
   return Array.from(uniqueDomains);
 };
 
+/**
+ * Contact scraper returns multiple pages with contact information from the same domain.
+ * This function merges all contact info under domain key.
+ */
 export const prepareContactsByDomain = (
   data: ActorDatasets.ContactDetailItem[],
 ) => {
@@ -56,6 +63,9 @@ export const prepareContactsByDomain = (
   return grouped;
 };
 
+/**
+ * This function prepares final output enriching AI sequences with contacts information
+ */
 export const enrichSequenceWithContacts = (
   sequence: OutreachSequence[],
   contacts: object,
@@ -74,6 +84,9 @@ export const enrichSequenceWithContacts = (
   });
 };
 
+/**
+ * This function gets domain from the url
+ */
 export const getDomainFromUrl = (url: string) => {
   try {
     const parsedUrl = new URL(url);

@@ -3,6 +3,8 @@
 The Link Building Agent is an automated agent designed to automate link-building efforts, a key component of building an SEO profile. It helps you position your website on keywords or search terms that are driving traffic or conversions (e.g., best email validation tool, best CRM for small businesses).
 
 ---
+## How it works
+![Diagram](https://raw.githubusercontent.com/danpoletaev/backlink-outreach-js/refs/heads/main/diagram.png?token=GHSAT0AAAAAAC4VZV5GJDTZLLZL7VWHD7J2Z5YHMNQ)
 
 ### It does the following:
 
@@ -124,6 +126,17 @@ For example:
   }
 }
 ```
+Example of sequence:
+```markdown
+Hi Manthan!
+
+Your article on the "10 Best APIs for Scraping Google in 2025" is fantastic! 
+I see potential for a collaboration that could be beneficial for both our audiences. 
+I'd love to discuss the idea of a backlink partnership if you're interested!
+
+Thank you,
+Dan
+```
 
 ---
 
@@ -135,3 +148,28 @@ For example:
 - **Integrate and customize:** You can then integrate this output to any messaging platform or automation tool via Make, n8n, or to ingest it as key properties into your CRMs like Hubspot, Salesforce, or Attio.
 
 Let our AI-powered outreach handle the communication so you can focus on what really matters—growing your business and building meaningful partnerships.
+
+---
+## FAQ
+
+### **💸 How much does it cost to run the Link Building Agent?**
+
+This scraper uses a Pay-per-event pricing model, making costs straightforward to calculate: it will cost you **$6 to scrape 1,000 search results**, so $0.006 per item. Apify provides $5 free usage credits every month on the [Apify Free plan](https://apify.com/pricing), letting you **scrape over 800 places on Google Maps for free** with those credits.
+
+### **Can I integrate Link Building Agent with other apps?**
+
+Yes. This Agent can be connected with almost any cloud service or web app thanks to [integrations on the Apify platform](https://apify.com/integrations). You can integrate with Make, Zapier, n8n, Slack, Airbyte, GitHub, Airtable, Instantly, Google Sheets, Google Drive, LangChain [and more](https://docs.apify.com/integrations).
+
+Or you can use [webhooks](https://docs.apify.com/integrations/webhooks) to carry out an action whenever an event occurs, e.g. get a notification whenever Link Building Agent successfully finishes a run.
+
+### **Can I use Link Building Agent as its own API?**
+
+Yes, by using Apify API. This API gives you programmatic access to the Apify platform. The API is organized around RESTful HTTP endpoints that enable you to manage, schedule, and run Apify [Actors](https://apify.com/actors). The API also lets you access any datasets, monitor Actor performance, fetch results, create and update versions, and more.
+
+To access the API using Node.js, use the `apify-client` [NPM package](https://apify.com/compass/google-maps-extractor/api/client/nodejs). To access the API using Python, use the `apify-client` [PyPI package](https://apify.com/compass/google-maps-extractor/api/client/python).
+
+Check out the [Apify API reference](https://docs.apify.com/api/v2) docs for full details or click on the [API tab](https://apify.com/compass/google-maps-extractor/api/client/nodejs) for code examples.
+
+### **Can I use this Agent in Python?**
+
+Yes, by using Apify API. To access the API, use the `apify-client` PyPI package. You can find more details about the client in our [Docs for Python Client](https://docs.apify.com/api/client/python/).

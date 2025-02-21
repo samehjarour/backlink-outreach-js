@@ -1,0 +1,58 @@
+{
+  "actorSpecification": 1,
+  "fields": {},
+  "views": {
+    "overview": {
+      "title": "Overview",
+      "transformation": {
+        "fields": [
+          "articleUrl",
+          "description",
+          "title",
+          "emails",
+          "facebooks",
+          "linkedIns",
+          "twitters",
+          "sequence"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "articleUrl": {
+            "label": "Article URL for backlink opportunities",
+            "format": "text"
+          },
+          "description": {
+            "label": "Article meta description",
+            "format": "text"
+          },
+          "title": {
+            "label": "Article meta title",
+            "format": "text"
+          },
+          "emails": {
+            "label": "Contact emails for outreach",
+            "format": "array"
+          },
+          "facebooks": {
+            "label": "Facebook profiles for outreach",
+            "format": "array"
+          },
+          "linkedIns": {
+            "label": "LinkedIn profiles for outreach",
+            "format": "array"
+          },
+          "twitters": {
+            "label": "Twitter profiles for outreach",
+            "format": "array"
+          },
+          "sequence": {
+            "label": "Outreach sequence across channels",
+            "format": "array"
+          }
+        }
+      }
+    }
+  }
+}

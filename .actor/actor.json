@@ -1,13 +1,17 @@
 {
 	"actorSpecification": 1,
 	"name": "backlink-outreach-js",
-	"title": "Project LangChain",
-	"description": "LangChain project in JavaScript.",
+	"title": "Backlink Outreacher",
+	"description": "This actor leverages targeted keyword analysis to identify potential backlink opportunities and automatically generates tailored outreach sequences",
 	"version": "0.0",
 	"meta": {
 		"templateId": "js-langchain"
 	},
 	"dockerfile": "./Dockerfile",
+	"input": "./input_schema.json",
+	"storages": {
+		"dataset": "./dataset_schema.json"
+	},
 	"environmentVariables": {
 		"OPENAI_API_KEY": "@OPENAI_API_KEY"
 	}

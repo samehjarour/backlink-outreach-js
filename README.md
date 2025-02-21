@@ -1,6 +1,6 @@
-## Link Building Agent
+## Backlink Building Agent
 
-The Link Building Agent is an automated agent designed to automate link-building efforts, a key component of building an SEO profile. It helps you position your website on keywords or search terms that are driving traffic or conversions (e.g., best email validation tool, best CRM for small businesses).
+The Backlink Building Agent is an automated agent designed to automate link-building efforts, a key component of building an SEO profile. It helps you position your website on keywords or search terms that are driving traffic or conversions (e.g., best email validation tool, best CRM for small businesses).
 
 ---
 ## How it works
@@ -143,26 +143,26 @@ Dan
 ### Tips for Best Results
 
 - **Run Regularly:** Check for new opportunities on a regular basis.
-- **Refine Your Keywords:** Experiment with different keywords to target the right audience.
+- **Refine Your Keywords:** Experiment with different keywords to target the right audience based on your CRM data or performance channels.
 - **Update Exclusions:** Keep your exclusion list current to avoid unwanted sites. Update it regularly. This will greatly improve filtering of potential opportunities!
-- **Integrate and customize:** You can then integrate this output to any messaging platform or automation tool via Make, n8n, or to ingest it as key properties into your CRMs like Hubspot, Salesforce, or Attio.
+- **Integrate and customize:** You can then integrate this output to any messaging platform or automation tool via Make, n8n, or to ingest it as key properties into your CRMs or databases like Hubspot, Salesforce, or Attio.
 
-Let our AI-powered outreach handle the communication so you can focus on what really matters—growing your business and building meaningful partnerships.
+Let our AI-powered outreach handle the communication so you can focus on what really matters — growing your business and building meaningful partnerships with these publishers.
 
 ---
 ## FAQ
 
 ### **💸 How much does it cost to run the Link Building Agent?**
 
-This scraper uses a Pay-per-event pricing model, making costs straightforward to calculate: it will cost you **$6 to scrape 1,000 search results**, so $0.006 per item. Apify provides $5 free usage credits every month on the [Apify Free plan](https://apify.com/pricing), letting you **scrape over 800 places on Google Maps for free** with those credits.
+This scraper uses a Pay-per-event pricing model, making costs straightforward to calculate: it will cost you **$0.05 to generate one sequence**. Apify provides $5 free usage credits every month on the [Apify Free plan](https://apify.com/pricing), letting you **generate over 100 places on Link Building Agent for free** with those credits.
 
-### **Can I integrate Link Building Agent with other apps?**
+### **Can I integrate Backlink Building Agent with other apps?**
 
 Yes. This Agent can be connected with almost any cloud service or web app thanks to [integrations on the Apify platform](https://apify.com/integrations). You can integrate with Make, Zapier, n8n, Slack, Airbyte, GitHub, Airtable, Instantly, Google Sheets, Google Drive, LangChain [and more](https://docs.apify.com/integrations).
 
 Or you can use [webhooks](https://docs.apify.com/integrations/webhooks) to carry out an action whenever an event occurs, e.g. get a notification whenever Link Building Agent successfully finishes a run.
 
-### **Can I use Link Building Agent as its own API?**
+### **Can I use Backlink Building Agent as its own API?**
 
 Yes, by using Apify API. This API gives you programmatic access to the Apify platform. The API is organized around RESTful HTTP endpoints that enable you to manage, schedule, and run Apify [Actors](https://apify.com/actors). The API also lets you access any datasets, monitor Actor performance, fetch results, create and update versions, and more.
 

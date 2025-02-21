@@ -1,10 +1,13 @@
-## Backlink Building Agent
+## 🔗 Backlink Building Agent
 
 The Backlink Building Agent is an automated agent designed to automate link-building efforts, a key component of building an SEO profile. It helps you position your website on keywords or search terms that are driving traffic or conversions (e.g., best email validation tool, best CRM for small businesses).
 
 ---
 ## How it works
-![Diagram](https://i.ibb.co/FLgMFrn4/Beige-Colorful-Minimal-Flowchart-Infographic-Graph.png)
+<a href="https://console.apify.com/actors/AN2w2qTGD470ONVd4/runs">
+  <img width="100%" src="https://github.com/danpoletaev/backlink-outreach-js/blob/main/diagram.png" />
+</a>
+<br>
 
 ### It does the following:
 
@@ -24,34 +27,34 @@ The Backlink Building Agent is an automated agent designed to automate link-buil
 
 ---
 
-### Input
+### ⬇️ Input
 
 Set your parameters using a simple JSON format. For example:
 
 ```json
 {
   "keywords": [
-    "Google maps scraper",
-    "Top best google maps scrapers"
+    "best email validation tool",
+    "email validators"
   ],
-  "businessName": "Apify",
-  "shortBusinessDescription": "Apify is the largest ecosystem where developers build, deploy, and publish data extraction and web automation tools. We call them Actors.",
+  "businessName": "Neverbounce",
+  "shortBusinessDescription": "NeverBounce offers real-time email verification to reduce bounce rates and improve deliverability. Clean your email list for better email marketing results.",
   "name": "Dan",
   "excludeDomains": [
-    "somescraper.com"
+    "Zerobounce"
   ]
 }
 ```
 
-- **keywords:** Keywords: These are the keywords or search terms that you want to target. This should be part of your SEO strategy, so keywords or search terms that are driving quality traffic and conversions to your website. Check out Ahrefs or Similarweb for more information, or use your CRM to determine the best keywords or search terms to target.
+- **keywords:** These are the keywords or search terms that you want to target. This should be part of your SEO strategy, so keywords or search terms that are driving quality traffic and conversions to your website. Check out <a href="https://ahrefs.com/" target="_blank">Ahrefs</a> or <a href="https://www.similarweb.com/" target="_blank">Similarweb</a> for more information, or use your CRM to determine the best keywords or search terms to target.
 - **businessName:** Your company or project name.
-- **shortBusinessDescription:** A brief description of your business.
+- **shortBusinessDescription:** A brief description of your business to help our agent asses your business model.
 - **name:** Your name or contact person.
-- **excludeDomains:** Domains to skip in the search.
+- **excludeDomains:** Domains to skip in the search. Can be names or domains. Put a list of competitors that you want our Agent to skip. 
 
 ---
 
-### Output
+### ⬆️ Output
 
 Here is a sample of the Output in JSON which you can use on marketing automation tools like Instantly or Hubspot:
 
@@ -152,7 +155,7 @@ Let our AI-powered outreach handle the communication so you can focus on what re
 ---
 ## FAQ
 
-### **💸 How much does it cost to run the Link Building Agent?**
+### **💸 How much does it cost to run the Backlink Building Agent?**
 
 This scraper uses a Pay-per-event pricing model, making costs straightforward to calculate: it will cost you **$0.05 to generate one sequence**. Apify provides $5 free usage credits every month on the [Apify Free plan](https://apify.com/pricing), letting you **generate over 100 places on Link Building Agent for free** with those credits.
 

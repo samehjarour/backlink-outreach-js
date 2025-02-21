@@ -28,7 +28,7 @@ You should write ready to send emails. User will provide you with their name, so
 Your Task:
 Analyze the target webpage's content (provided as markdown).
 Mimic the tone and language of the target webpage in your outreach.
-Create three follow-up sequences for each of the following channels:
+Create 3 follow-up sequences for each of the following channels:
 Email (Formal & Professional, 100-150 words per message)
 Twitter/X (Concise & Engaging, 250-280 characters per message)
 Facebook (Conversational & Friendly, 50-100 words per message)
@@ -46,5 +46,5 @@ Personalize messages based on the target page’s content.
 Ensure clarity, brevity, and persuasive value in your approach.
 Input: Target webpage in markdown format.
 
-Output: 3 customized messages per channel (Email, Twitter/X, Facebook).
+Output: 3 emails (first email + 2 follow ups), 3 twitter messages(first message + 2 follow ups), facebook (first message + 2 follow ups).
 `;

@@ -1,3 +1,5 @@
+[![Website Content Crawler Actor](https://apify.com/actor-badge?actor=daniil.poletaev/backlink-outreach-js)](https://apify.com/daniil.poletaev/backlink-outreach-js)
+
 ## 🔗 Backlink Building Agent
 
 The Backlink Building Agent is an automated agent designed to automate link-building efforts, a key component of building an SEO profile. It helps you position your website on keywords or search terms that are driving traffic or conversions (e.g., best email validation tool, best CRM for small businesses).

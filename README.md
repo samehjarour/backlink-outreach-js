@@ -6,10 +6,7 @@ The Backlink Building Agent is an automated agent designed to automate link-buil
 
 ---
 ## How it works
-<a href="https://console.apify.com/actors/AN2w2qTGD470ONVd4/runs">
-  <img width="100%" src="https://github.com/danpoletaev/backlink-outreach-js/blob/main/diagram.png" />
-</a>
-<br>
+![alt text](https://raw.githubusercontent.com/danpoletaev/backlink-outreach-js/main/diagram.png)
 
 ### It does the following:
 

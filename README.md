@@ -1,4 +1,4 @@
-[![Website Content Crawler Actor](https://apify.com/actor-badge?actor=daniil.poletaev/backlink-outreach-js)](https://apify.com/daniil.poletaev/backlink-outreach-js)
+[![Website Content Crawler Actor](https://apify.com/actor-badge?actor=daniil.poletaev/backlink-building-agent)](https://apify.com/daniil.poletaev/backlink-building-agent)
 
 ## 🔗 Backlink Building Agent
 
@@ -7,6 +7,9 @@ The Backlink Building Agent is an automated agent designed to automate link-buil
 ---
 ## How it works
 ![alt text](https://raw.githubusercontent.com/danpoletaev/backlink-outreach-js/main/diagram.png)
+
+
+### This actor is open source. You can check source code [here](https://github.com/danpoletaev/backlink-outreach-js).
 
 ### It does the following:
 
@@ -175,5 +178,3 @@ Check out the [Apify API reference](https://docs.apify.com/api/v2) docs for fu
 ### **Can I use this Agent in Python?**
 
 Yes, by using Apify API. To access the API, use the `apify-client` PyPI package. You can find more details about the client in our [Docs for Python Client](https://docs.apify.com/api/client/python/).
-
-### This actor is open source. You can check source code [here](https://github.com/danpoletaev/backlink-outreach-js).

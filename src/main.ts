@@ -18,16 +18,17 @@ const Event = {
 
 await Actor.init();
 
-const { OPENAI_API_KEY, APIFY_TOKEN } = process.env;
+const { APIFY_TOKEN, ANTROPHIC_API_KEY } = process.env;
 
 // You can configure the input for the Actor in the Apify UI when running on the Apify platform or editing
 // storage/key_value_stores/default/INPUT.json when running locally.
-const { keywords, excludeDomains } =
-  (await Actor.getInput<ActorInput>()) || ({} as ActorInput);
+const input = (await Actor.getInput<ActorInput>()) || ({} as ActorInput);
 
-if (!OPENAI_API_KEY)
+const { keywords, shortBusinessDescription, businessName, name } = input;
+
+if (!ANTROPHIC_API_KEY)
   throw new Error(
-    "Please configure the OPENAI_API_KEY as environment variable!",
+    "Please configure the ANTROPHIC_API_KEY as environment variable!",
   );
 if (!APIFY_TOKEN)
   throw new Error(
@@ -36,6 +37,10 @@ if (!APIFY_TOKEN)
 if (!keywords.length)
   throw new Error(
     "Please configure the APIFY_TOKEN environment variable! Call `apify login` in your terminal to authenticate.",
+  );
+if (!name || !shortBusinessDescription || !businessName)
+  throw new Error(
+    "Name, short business description and business name are required!",
   );
 
 // Scrape keyword results from google using actor
@@ -48,7 +53,7 @@ log.info("Scraped google search by keywords", {
 // Analyze and find potential backlinks
 const listOfPotentialBacklinks = await getPotentialBacklinks(
   preparedArticleUrls,
-  excludeDomains,
+  input,
 );
 
 log.info("Analyzed potential backlinks", {
@@ -92,7 +97,10 @@ log.info("Preparing outreach sequence for articles", {
 });
 
 // Prepare outreach sequence for all articles
-const outreachSequence = await getOutreachSequences(articleContentDetails);
+const outreachSequence = await getOutreachSequences(
+  articleContentDetails,
+  input,
+);
 
 log.info("Preparing dataset");
 

@@ -103,6 +103,9 @@ export async function getArticleDetailContent(articleUrls: string[]) {
     {
       datasetMappingFunction: (item) => item,
       clientOptions: { token: APIFY_TOKEN },
+      callOptions: {
+        memory: 4096,
+      },
     },
   );
 

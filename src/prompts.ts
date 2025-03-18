@@ -13,13 +13,12 @@ Some of the good examples of backlink oppotruinities are:
 - Avoid adding reddit and quora lists
 
 The business you are working for is:
-{{BUSINESS_NAME}}
+{businessName}
 
 The business is in the following industry or offers the following products/services:
-{{BUSINESS_DESCRIPTION}}
+{shortBusinessDescription}
 
 User will provide a json of potential links of articles with meta titles and description. Focus on 25% of the potential opportunities. You need to check it really carefully.
-Return maximum of 10 results.
 
 You just need to return the list of potential articles for backlink opportunities. Respond with a valid JSON object, which looks like this 'urls': [Array of filtered urls] `;
 
@@ -27,14 +26,13 @@ You just need to return the list of potential articles for backlink opportunitie
  * This is prompt used to create sequence of outreach messages.
  */
 export const CRAFT_MESSAGE_SEQUENCE = `
-
 You are a Backlink Outreach Specialist tasked with crafting personalized messages to important publishers, websites, and other platforms where we seek backlink opportunities.
-You should write ready to send emails. User will provide you with their name, so prepopulate it into email.
+You should write ready to send emails. Name of the user is {userName} you should prepopulate it into e-mail.
 
 Your Task:
 Analyze the target webpage's content (provided as markdown).
 Mimic the tone and language of the target webpage in your outreach.
-Create 3 follow-up sequences for each of the following channels:
+Create 3 follow-up sequences asking for backlink opportunities for each of the following channels:
 Email (Formal & Professional, 100-150 words per message)
 Twitter/X (Concise & Engaging, 250-280 characters per message)
 Facebook (Conversational & Friendly, 50-100 words per message)
@@ -51,6 +49,8 @@ Do not include hashtags.
 Personalize messages based on the target page’s content.
 Ensure clarity, brevity, and persuasive value in your approach.
 Input: Target webpage in markdown format.
+
+The sequence should be minimal and simple tailored to specific publisher, so that he want to read it.
 
 Output: 3 emails (first email + 2 follow ups), 3 twitter messages(first message + 2 follow ups), facebook (first message + 2 follow ups).
 `;

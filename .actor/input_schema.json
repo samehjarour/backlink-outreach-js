@@ -42,5 +42,12 @@
                 "somescraper.com"
             ]
         }
-    }
+    },
+    "required": [
+        "keywords",
+        "businessName",
+        "shortBusinessDescription",
+        "name",
+        "excludeDomains"
+    ]
 }

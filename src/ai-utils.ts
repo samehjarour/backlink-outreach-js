@@ -1,28 +1,23 @@
-import { ChatOpenAI } from "@langchain/openai";
+import { ChatAnthropic } from "@langchain/anthropic";
 import { CRAFT_MESSAGE_SEQUENCE, FILTER_LINKS_PROMPT } from "./prompts.js";
 
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
 
-import OpenAI from "openai";
 import { z } from "zod";
-import { zodResponseFormat } from "openai/helpers/zod";
-import { ActorDatasets } from "./types.js";
+import { ActorDatasets, ActorInput } from "./types.js";
+import { SystemMessagePromptTemplate } from "@langchain/core/prompts";
+import { log } from "apify";
 
-const { OPENAI_API_KEY } = process.env;
-
-const openai = new OpenAI({
-  apiKey: OPENAI_API_KEY,
-});
-
-const model = new ChatOpenAI({
-  model: "gpt-4o-mini",
-  temperature: 0,
-  apiKey: OPENAI_API_KEY,
-});
+const { ANTROPHIC_API_KEY } = process.env;
 
 const Url = z.object({
   urls: z.array(z.string()),
+});
+
+const model = new ChatAnthropic({
+  model: "claude-3-5-haiku-20241022",
+  temperature: 0,
+  apiKey: ANTROPHIC_API_KEY,
 });
 
 const MessageSchema = z.object({
@@ -52,11 +47,11 @@ export type OutreachSequence = {
  */
 export async function getPotentialBacklinks(
   preparedArticlesUrl: ActorDatasets.OrganicResultItem[][],
-  excludeDomains = [],
+  input: ActorInput,
 ) {
   const res = await Promise.all(
     preparedArticlesUrl.map((item) =>
-      getFilteredBacklinksForKeyword(item, excludeDomains),
+      getFilteredBacklinksForKeyword(item, input),
     ),
   );
   return res.flat();
@@ -68,26 +63,28 @@ export async function getPotentialBacklinks(
  */
 async function getFilteredBacklinksForKeyword(
   articleUrls: ActorDatasets.OrganicResultItem[],
-  excludeDomains: string[],
+  input: ActorInput,
 ) {
-  const agent = createReactAgent({
-    llm: model,
-    tools: [],
-    responseFormat: zodResponseFormat(Url, "url").json_schema,
-  });
+  const structuredLlm = model.withStructuredOutput(Url);
 
   const filteredUrls = articleUrls.filter(
-    (item) => !excludeDomains.some((x) => item.url.includes(x)),
+    (item) => !input.excludeDomains.some((x) => item.url.includes(x)),
   );
 
-  const res = await agent.invoke({
-    messages: [
-      new SystemMessage(FILTER_LINKS_PROMPT),
-      new HumanMessage(JSON.stringify(filteredUrls)),
-    ],
+  const systemMessageTemplate =
+    SystemMessagePromptTemplate.fromTemplate(FILTER_LINKS_PROMPT);
+
+  const systemMessage = await systemMessageTemplate.format({
+    businessName: input.businessName,
+    shortBusinessDescription: input.shortBusinessDescription,
   });
 
-  return res?.structuredResponse?.urls;
+  const res = await structuredLlm.invoke([
+    systemMessage,
+    new HumanMessage(JSON.stringify(filteredUrls)),
+  ]);
+
+  return res?.urls;
 }
 
 /**
@@ -95,18 +92,25 @@ async function getFilteredBacklinksForKeyword(
  */
 export async function getOutreachSequences(
   articles: ActorDatasets.ContentCrawlerItem[],
+  input: ActorInput,
 ) {
   const response: OutreachSequence[] = [];
 
   for (const article of articles) {
-    const sequence = await createOutreachSequence(article.text);
+    try {
+      const sequence = await createOutreachSequence(article.text, input);
 
-    response.push({
-      sequence: sequence,
-      articleUrl: article.url,
-      title: article.metadata.title,
-      description: article.metadata.description,
-    });
+      response.push({
+        sequence: sequence,
+        articleUrl: article.url,
+        title: article.metadata.title,
+        description: article.metadata.description,
+      });
+    } catch (err) {
+      log.info("Failed to prepare 1 outreach sequence for", {
+        url: article.url,
+      });
+    }
   }
 
   return response;
@@ -114,19 +118,22 @@ export async function getOutreachSequences(
 
 /**
  * This function prepares outreach sequence for 1 article
- * Note: using langchain it mostly returned only 1 email sequence, instead of 3,
- * that's why openai package is used without any additional frameworks here.
- * Fix later
  */
-async function createOutreachSequence(content: string) {
-  const completion = await openai.beta.chat.completions.parse({
-    model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: CRAFT_MESSAGE_SEQUENCE },
-      { role: "user", content: content },
-    ],
-    response_format: zodResponseFormat(AISequence, "event"),
+async function createOutreachSequence(content: string, input: ActorInput) {
+  const structuredLlm = model.withStructuredOutput(AISequence);
+
+  const systemMessageTemplate = SystemMessagePromptTemplate.fromTemplate(
+    CRAFT_MESSAGE_SEQUENCE,
+  );
+
+  const systemMessage = await systemMessageTemplate.format({
+    userName: input.name,
   });
 
-  return completion.choices[0].message.parsed as AISequenceType;
+  const sequence = await structuredLlm.invoke([
+    systemMessage,
+    new HumanMessage(content),
+  ]);
+
+  return sequence;
 }

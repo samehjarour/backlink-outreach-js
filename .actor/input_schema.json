@@ -8,7 +8,7 @@
             "title": "Keywords",
             "type": "array",
             "description": "One or more keywords for which we'll prepare backlink outreach",
-            "editor": "json",
+            "editor": "stringList",
             "prefill": [
                 "Best google search scrapers"
             ]
@@ -37,7 +37,7 @@
             "title": "Domains to exclude",
             "type": "array",
             "description": "One or more domains, which should be excluded from the outreach. This improves the outreach strategy",
-            "editor": "json",
+            "editor": "stringList",
             "prefill": [
                 "somescraper.com"
             ]

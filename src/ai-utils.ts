@@ -1,7 +1,7 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { CRAFT_MESSAGE_SEQUENCE, FILTER_LINKS_PROMPT } from "./prompts.js";
 
-import { HumanMessage, SystemMessage } from "@langchain/core/messages";
+import { HumanMessage } from "@langchain/core/messages";
 
 import { z } from "zod";
 import { ActorDatasets, ActorInput } from "./types.js";
@@ -94,24 +94,30 @@ export async function getOutreachSequences(
   articles: ActorDatasets.ContentCrawlerItem[],
   input: ActorInput,
 ) {
-  const response: OutreachSequence[] = [];
-
-  for (const article of articles) {
+  const sequencePromises = articles.map(async (article) => {
     try {
       const sequence = await createOutreachSequence(article.text, input);
 
-      response.push({
+      return {
         sequence: sequence,
         articleUrl: article.url,
         title: article.metadata.title,
         description: article.metadata.description,
-      });
+      };
     } catch (err) {
       log.info("Failed to prepare 1 outreach sequence for", {
         url: article.url,
       });
+      return null;
     }
-  }
+  });
+
+  const results = await Promise.all(sequencePromises);
+
+  // Filter out null values (failed items)
+  const response: OutreachSequence[] = results.filter(
+    (result): result is OutreachSequence => result !== null,
+  );
 
   return response;
 }

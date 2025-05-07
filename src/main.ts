@@ -1,10 +1,6 @@
 import { Actor, log } from "apify";
 import { getOutreachSequences, getPotentialBacklinks } from "./ai-utils.js";
-import {
-  enrichSequenceWithContacts,
-  getUniqueDomains,
-  prepareContactsByDomain,
-} from "./utils.js";
+import { getUniqueDomains } from "./utils.js";
 import {
   getArticleDetailContent,
   getContactDetails,
@@ -67,9 +63,7 @@ const interestingUrls = interestingArticles.map((item) => item.url);
 const uniqueDomains = getUniqueDomains(interestingUrls);
 const contactDetails = await getContactDetails(uniqueDomains);
 
-const withContacts = contactDetails.filter(
-  (item) => item?.emails?.length || item?.linkedIns?.length,
-);
+const withContacts = contactDetails.filter((item) => item?.emails?.length);
 
 const withContactsDomains = [
   ...new Set(withContacts.map((item) => item.domain)),

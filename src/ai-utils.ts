@@ -6,9 +6,17 @@ import { HumanMessage } from "@langchain/core/messages";
 import { z } from "zod";
 import { ActorDatasets, ActorInput } from "./types.js";
 import { SystemMessagePromptTemplate } from "@langchain/core/prompts";
-import { log } from "apify";
+import { Actor, log } from "apify";
+import {
+  enrichSequenceWithContacts,
+  prepareContactsByDomain,
+} from "./utils.js";
 
 const { ANTROPHIC_API_KEY } = process.env;
+
+const Event = {
+  PREPARED_OUTREACH: "prepared-outreach",
+};
 
 const Url = z.object({
   urls: z.array(z.string()),
@@ -18,6 +26,7 @@ const model = new ChatAnthropic({
   model: "claude-3-5-haiku-20241022",
   temperature: 0,
   apiKey: ANTROPHIC_API_KEY,
+  maxRetries: 3,
 });
 
 const MessageSchema = z.object({
@@ -39,6 +48,7 @@ export type OutreachSequence = {
   articleUrl: string;
   title: string;
   description: string;
+  uuid: string;
 };
 
 /**
@@ -87,39 +97,112 @@ async function getFilteredBacklinksForKeyword(
   return res?.urls;
 }
 
+async function sleep(waitTimeMs: number) {
+  return await new Promise((resolve) => setTimeout(resolve, waitTimeMs));
+}
+
 /**
- * This function prepares outreach sequences for all articles
+ * This function prepares outreach sequences for all articles in batch with rate limit handling
  */
 export async function getOutreachSequences(
   articles: ActorDatasets.ContentCrawlerItem[],
+  contactDetails: ActorDatasets.ContactDetailItem[],
   input: ActorInput,
 ) {
-  const sequencePromises = articles.map(async (article) => {
-    try {
-      const sequence = await createOutreachSequence(article.text, input);
+  const BATCH_SIZE = 10;
+  const WAIT_TIME_MS = 60_000;
+  const RATE_LIMIT_ERROR = "MODEL_RATE_LIMIT";
+  const MAX_ERROR_COUNT = 3;
 
-      return {
-        sequence: sequence,
-        articleUrl: article.url,
-        title: article.metadata.title,
-        description: article.metadata.description,
-      };
-    } catch (err) {
-      log.info("Failed to prepare 1 outreach sequence for", {
-        url: article.url,
-      });
-      return null;
+  let remainingArticles = articles.map((item) => ({
+    ...item,
+    uuid: crypto.randomUUID() as string,
+  }));
+
+  const uuidErrorMap = new Map<string, number>();
+
+  while (remainingArticles.length > 0) {
+    const currentBatch = remainingArticles.slice(0, BATCH_SIZE);
+
+    const sequencePromises = currentBatch.map(async (article) => {
+      try {
+        const sequence = await createOutreachSequence(article.text, input);
+
+        return {
+          sequence: sequence,
+          articleUrl: article.url,
+          title: article.metadata.title,
+          description: article.metadata.description,
+          uuid: article.uuid,
+        };
+      } catch (err) {
+        log.info("Failed to prepare 1 outreach sequence for", {
+          url: article.url,
+          uuid: article.uuid,
+          error: err?.lc_error_code ?? "unknown", // MODEL_RATE_LIMIT - in case of error
+        });
+        return {
+          errorType: err?.lc_error_code ?? "unknown", // MODEL_RATE_LIMIT - in case of error
+          uuid: article.uuid,
+        };
+      }
+    });
+
+    const results = await Promise.all(sequencePromises);
+
+    // Filter out processed values
+    const outreachSequences: OutreachSequence[] = results.filter(
+      (result): result is OutreachSequence => !("errorType" in result),
+    );
+
+    const processedUuids = outreachSequences.map((item) => item.uuid);
+    const errorItems = results.filter((result) => "errorType" in result);
+
+    remainingArticles = remainingArticles.filter(
+      (item) => !processedUuids.includes(item.uuid),
+    );
+
+    const isRateLimit = errorItems.some(
+      (item: any) => item.errorType === RATE_LIMIT_ERROR,
+    );
+
+    for (const errorItem of errorItems) {
+      const previousValue = uuidErrorMap.get(errorItem.uuid) ?? 0;
+      uuidErrorMap.set(errorItem.uuid, previousValue + 1);
     }
-  });
 
-  const results = await Promise.all(sequencePromises);
+    const filteredKeys = Array.from(uuidErrorMap.entries())
+      .filter(([_, count]) => count >= MAX_ERROR_COUNT)
+      .map(([uuid, _]) => uuid);
 
-  // Filter out null values (failed items)
-  const response: OutreachSequence[] = results.filter(
-    (result): result is OutreachSequence => result !== null,
-  );
+    remainingArticles.filter((item) => !filteredKeys.includes(item.uuid));
 
-  return response;
+    // Save to dataset
+    log.info("Preparing dataset");
+
+    const contactsByDomain = prepareContactsByDomain(contactDetails);
+
+    const enrichedSequence = enrichSequenceWithContacts(
+      outreachSequences,
+      contactsByDomain,
+    );
+
+    await Actor.charge({
+      eventName: Event.PREPARED_OUTREACH,
+      count: enrichedSequence.length,
+    });
+
+    await Actor.pushData(enrichedSequence);
+
+    if (isRateLimit) {
+      log.info("Rate limit reached. We'll sleep for some time!", {
+        errorItems,
+      });
+      await sleep(WAIT_TIME_MS);
+    } else {
+      await sleep(5_000);
+    }
+  }
 }
 
 /**

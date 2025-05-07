@@ -12,13 +12,9 @@ import {
 } from "./actors.js";
 import { ActorInput } from "./types.js";
 
-const Event = {
-  PREPARED_OUTREACH: "prepared-outreach",
-};
-
 await Actor.init();
 
-const { APIFY_TOKEN, ANTROPHIC_API_KEY } = process.env;
+const { ANTROPHIC_API_KEY, APIFY_TOKEN } = process.env;
 
 // You can configure the input for the Actor in the Apify UI when running on the Apify platform or editing
 // storage/key_value_stores/default/INPUT.json when running locally.
@@ -97,24 +93,8 @@ log.info("Preparing outreach sequence for articles", {
 });
 
 // Prepare outreach sequence for all articles
-const outreachSequence = await getOutreachSequences(
-  articleContentDetails,
-  input,
-);
+await getOutreachSequences(articleContentDetails, contactDetails, input);
 
-log.info("Preparing dataset");
+log.info("Finished preparing sequences!");
 
-const contactsByDomain = prepareContactsByDomain(contactDetails);
-
-const enrichedSequence = enrichSequenceWithContacts(
-  outreachSequence,
-  contactsByDomain,
-);
-
-await Actor.charge({
-  eventName: Event.PREPARED_OUTREACH,
-  count: enrichedSequence.length,
-});
-
-await Actor.pushData(enrichedSequence);
 await Actor.exit();

@@ -1,19 +1,19 @@
 {
-	"actorSpecification": 1,
-	"name": "backlink-outreach-js",
-	"title": "Link Building Agent",
-	"description": "The Link Building Agent automates backlink outreach by finding relevant pages and websites, extracting contacts from these websites, and then crafting personalized outreach sequences based on the Markdown content to these partners. These sequences can be used on email, LinkedIn, Twitter, & WhatsApp.",
-	"version": "0.0",
-	"meta": {
-		"templateId": "js-langchain"
-	},
-	"dockerfile": "./Dockerfile",
-	"input": "./input_schema.json",
-	"storages": {
-		"dataset": "./dataset_schema.json"
-	},
-	"environmentVariables": {
-		"OPENAI_API_KEY": "@OPENAI_API_KEY",
-		"ANTROPHIC_API_KEY": "@ANTROPHIC_API_KEY"
-	}
+    "actorSpecification": 1,
+    "name": "location-lead-gen-agent",
+    "title": "Industry-Specific Location Lead Generation Agent",
+    "description": "Extract targeted business leads by location with complete contact information. Search for businesses in specific locations, gather comprehensive contact details, analyze website traffic data, and generate personalized outreach notes. Perfect for location-based B2B prospecting and sales outreach.",
+    "version": "0.1.0",
+    "meta": {
+        "templateId": "python-langchain"
+    },
+    "dockerfile": "./Dockerfile",
+    "input": "./input_schema.json",
+    "storages": {
+        "dataset": "./dataset_schema.json"
+    },
+    "environmentVariables": {
+        "APIFY_TOKEN": "@APIFY_TOKEN",
+        "ANTHROPIC_API_KEY": "@ANTHROPIC_API_KEY"
+    }
 }

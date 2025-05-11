@@ -1,53 +1,89 @@
 {
-    "title": "Input schema for Backlink outreach",
-    "description": "Enter the keywords to look for",
+    "title": "Input schema for Location-Based Lead Generation",
+    "description": "Configure search parameters for targeted location-based lead generation",
     "type": "object",
     "schemaVersion": 1,
     "properties": {
-        "keywords": {
-            "title": "Keywords",
+        "searchTerms": {
+            "title": "Search Terms",
             "type": "array",
-            "description": "One or more keywords for which we'll prepare backlink outreach",
+            "description": "Industry-specific terms to search for (e.g., \"marketing agency\", \"digital marketing\")",
             "editor": "stringList",
             "prefill": [
-                "Best google search scrapers"
+                "marketing agency",
+                "digital marketing"
             ]
         },
+        "locations": {
+            "title": "Target Locations",
+            "type": "array",
+            "description": "Geographic locations to search within (e.g., \"New York, NY\", \"Los Angeles, CA\")",
+            "editor": "stringList",
+            "prefill": [
+                "New York, NY",
+                "Los Angeles, CA"
+            ]
+        },
+        "maxResultsPerLocation": {
+            "title": "Maximum Results Per Location",
+            "type": "integer",
+            "description": "Maximum number of businesses to extract per location",
+            "prefill": 25,
+            "minimum": 1,
+            "maximum": 100,
+            "editor": "number"
+        },
+        "minimumRating": {
+            "title": "Minimum Rating",
+            "type": "string",
+            "description": "Filter businesses by minimum star rating",
+            "prefill": "three",
+            "enum": ["", "two", "twoAndHalf", "three", "threeAndHalf", "four", "fourAndHalf"],
+            "enumTitles": ["No filter", "2+ stars", "2.5+ stars", "3+ stars", "3.5+ stars", "4+ stars", "4.5+ stars"],
+            "editor": "select"
+        },
         "businessName": {
-            "title": "Name of your company/website",
+            "title": "Your Company Name",
             "type": "string",
-            "description": "It needs so that AI models better understand competitors",
-            "prefill": "Apify",
+            "description": "Your company name for personalized outreach",
+            "prefill": "Your Company Name",
             "editor": "textfield"
         },
-        "shortBusinessDescription": {
-            "title": "Description of your company/website",
+        "contactName": {
+            "title": "Your Name",
             "type": "string",
-            "description": "It needs so that AI models better understand competitors",
-            "prefill": "Apify is the largest ecosystem where developers build, deploy, and publish data extraction and web automation tools. We call them Actors.",
-            "editor": "textfield"
-        },
-        "name": {
-            "title": "Your name to be appended to the emails",
-            "type": "string",
-            "description": "The name which will be appended to the outreach messages",
+            "description": "Your name for personalized outreach messages",
             "editor": "textfield"
         },
         "excludeDomains": {
-            "title": "Domains to exclude",
+            "title": "Domains to Exclude",
             "type": "array",
-            "description": "One or more domains, which should be excluded from the outreach. This improves the outreach strategy",
+            "description": "Competitor domains or other websites to exclude from results",
             "editor": "stringList",
             "prefill": [
-                "somescraper.com"
+                "competitor1.com",
+                "competitor2.com"
             ]
+        },
+        "includeContactDetails": {
+            "title": "Extract Detailed Contact Information",
+            "type": "boolean",
+            "description": "Extract emails, phone numbers, and social profiles (may increase processing time)",
+            "default": true,
+            "editor": "checkbox"
+        },
+        "analyzeWebsiteTraffic": {
+            "title": "Analyze Website Traffic",
+            "type": "boolean",
+            "description": "Analyze website metrics to identify high-potential leads (may increase processing time)",
+            "default": true,
+            "editor": "checkbox"
         }
     },
     "required": [
-        "keywords",
+        "searchTerms",
+        "locations",
         "businessName",
-        "shortBusinessDescription",
-        "name",
-        "excludeDomains"
+        "contactName"
     ]
 }

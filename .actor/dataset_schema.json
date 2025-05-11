@@ -6,50 +6,60 @@
       "title": "Overview",
       "transformation": {
         "fields": [
-          "articleUrl",
-          "description",
-          "title",
+          "businessName",
+          "address",
+          "website",
+          "phone",
           "emails",
-          "facebooks",
-          "linkedIns",
-          "twitters",
-          "sequence"
+          "category",
+          "relevanceScore",
+          "socialProfiles",
+          "contactPerson",
+          "outreachNotes"
         ]
       },
       "display": {
         "component": "table",
         "properties": {
-          "articleUrl": {
-            "label": "Article URL for backlink opportunities",
+          "businessName": {
+            "label": "Business Name",
             "format": "text"
           },
-          "description": {
-            "label": "Article meta description",
+          "address": {
+            "label": "Business Address",
             "format": "text"
           },
-          "title": {
-            "label": "Article meta title",
+          "website": {
+            "label": "Website",
+            "format": "text"
+          },
+          "phone": {
+            "label": "Phone Number",
             "format": "text"
           },
           "emails": {
-            "label": "Contact emails for outreach",
+            "label": "Contact Emails",
             "format": "array"
           },
-          "facebooks": {
-            "label": "Facebook profiles for outreach",
+          "category": {
+            "label": "Business Category",
             "format": "array"
           },
-          "linkedIns": {
-            "label": "LinkedIn profiles for outreach",
-            "format": "array"
+          "relevanceScore": {
+            "label": "Relevance Score",
+            "format": "number"
           },
-          "twitters": {
-            "label": "Twitter profiles for outreach",
-            "format": "array"
+          "socialProfiles": {
+            "label": "Social Media Profiles",
+            "format": "json"
           },
-          "sequence": {
-            "label": "Outreach sequence across channels",
-            "format": "array"
+          "contactPerson": {
+            "label": "Contact Person",
+            "format": "text"
+          },
+          "outreachNotes": {
+            "label": "Personalized Outreach Notes",
+            "format": "text"
           }
         }
       }
